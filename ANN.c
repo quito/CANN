@@ -1,6 +1,16 @@
 
 #include <stdlib.h>
+#include <math.h>
 #include "ANN.h"
+
+/* ==== ACTIVATION FUNCTION ===== */
+
+double		sigmoid(double x)
+{
+  return (1.0 / (1.0 + (exp(-x * ANN_K))));
+}
+
+/* ============================== */
 
 static inline double	getRandomWeight(void)
 {
@@ -35,16 +45,19 @@ void		connectNeurons(t_neuron **layers, unsigned *layersSizes, unsigned size)
     }
 }
 
-void		initNeurons(t_neuron *neurons, unsigned size)
+void		initNeurons(t_neuron *neurons, unsigned size, enum e_neuronType type)
 {
   unsigned	i = 0;
 
-  while (i < size)
+  while (i < size + 1)
     {
       neurons[i].sum = 0;
-      neurons[i].activationPtr = NULL;
+      neurons[i].activationPtr = sigmoid;
       neurons[i].OConnections = NULL;
       neurons[i].IConnections = NULL;
+      neurons[i].type = type;
+      if (i == size)
+	neurons[i].type &= BIAIS;
       ++i;
     }
 }
@@ -58,15 +71,21 @@ t_network      	*createNetwork(unsigned int *layers, unsigned size)
   net = malloc(sizeof(*net));
   if (!net)
     return NULL;
-  net->layers = malloc(sizeof(*(net->layers)));
+  net->layers = malloc(sizeof(*(net->layers)) * size);
   if (!net->layers)
     return NULL;
   while (i < size)
     {
-      net->layers[i] = malloc(sizeof(*(net->layers[i])) * layers[i]);      
-      initNeurons(net->layers[i], layers[i]);
+      net->layers[i] = malloc(sizeof(*(net->layers[i])) * layers[i] + 1);
+      if (i == 0)
+	initNeurons(net->layers[i], layers[i], INPUT);
+      else if (i == size - 1)
+	initNeurons(net->layers[i], layers[i], OUTPUT);
+      else
+	initNeurons(net->layers[i], layers[i], HIDDEN);
       ++i;
     }
+  
   connectNeurons(net->layers, layers, size);
   return (net);
 }
