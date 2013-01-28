@@ -19,6 +19,16 @@ double		getSum(struct s_neuron *n)
   return n->sum;
 }
 
+ /* ========= MISC =========*/
+
+double		getNeuronOutput(t_neuron *n)
+{
+  if (!n)
+    return 0;
+  return (n->activationPtr(n->getSum(n)));
+    
+}
+
 /* ============================== */
 
 static inline double	getRandomWeight(void)
