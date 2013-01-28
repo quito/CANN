@@ -6,7 +6,7 @@ t_list		*allocateNode(void *data)
 {
   t_list	*new;
 
-  new = malloc(sizeof(*data));
+  new = malloc(sizeof(*new));
   if (!new)
     return (NULL);
   new->data = data;
