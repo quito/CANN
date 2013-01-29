@@ -3,6 +3,7 @@ NAME	=	neuronne
 
 SRC	=	main.c \
 		ANN.c \
+		network_descriptor.c \
 		list.c
 
 CC	=	clang

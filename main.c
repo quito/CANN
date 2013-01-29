@@ -1,6 +1,7 @@
 
 #include <stdlib.h>
 #include "ANN.h"
+#include "network_descriptor.h"
 
 #define NBLAYERS 3
 
@@ -20,8 +21,10 @@ int main(int ac, char *av[])
 {
   t_network	*net;
   unsigned	*tab;
+  t_ANN_des	*ann_des;
 
   tab = createLayerTab();
+  ann_des = createNetworkDescriptor(tab, 3);
   net = createNetwork(tab, 3);
   return 0;
 }
