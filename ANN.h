@@ -18,6 +18,12 @@ enum e_neuronType
     DATA = 16
   };
 
+enum e_networkType
+  {
+    MLP = 0,
+    CIRCULAR
+  };
+
 typedef struct s_neuron
 {
   double	sum;
@@ -48,8 +54,9 @@ typedef struct
 */
 typedef struct 
 {
-  t_neuron	**layers;
-  unsigned	nbLayers;
+  t_neuron		**layers;
+  unsigned		nbLayers;
+  enum e_networkType	netwokType;
 }		t_network;
 
 #endif
